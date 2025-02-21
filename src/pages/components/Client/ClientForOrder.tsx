@@ -183,7 +183,9 @@ const ClientForOrder: FC = () => {
     
         const { adres, name: client_name, phone: client_phone } = clientInfo;
         const { comments: comment, date } = ordersInfo || {};
-
+    
+        const currentDate = new Date().toISOString().split("T")[0];
+    
         const orders = ordersFromBasket.map(el => ({
             client_phone,
             client_name,
@@ -194,13 +196,12 @@ const ClientForOrder: FC = () => {
             adres,
             comment: comment ?? null,
             is_active: false,
-            date: date
+            date: date ?? currentDate,
         }));
-
+    
         addOrder(orders);
-
-        //console.log(orders)
-    }   
+    };
+    
 
     
     return (
