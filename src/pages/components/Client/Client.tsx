@@ -178,7 +178,6 @@ const Client: FC = () => {
                                     />
                                     {errors.name && <div className="errors">{errors.name.message}</div>}
                                 </div>
-                                
                             </label>
 
                             <label>

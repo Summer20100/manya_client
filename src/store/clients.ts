@@ -26,7 +26,7 @@ type Actions = {
 const { 
   //urlOnrenderClients,
   urlJWTClients,
-  // urlLocalserverClients 
+  //urlLocalserverClients 
 } = URL;
 
 const fetchClients = async (set: (state: Partial<State>) => void) => {
@@ -106,9 +106,9 @@ export const useClients = create<State & Actions>((set)=> ({
       const responseAdd = await api.post(
         //urlOnrenderClients,
         urlJWTClients,
+       //"http://127.0.0.1:8000/orders",
         //urlLocalserverClients,
         //"https://marusina-sweets.onrender.com/categories/",
-        //"http://127.0.0.1:8000/categories/",
         client
       );
       if (responseAdd.status === 201) {

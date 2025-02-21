@@ -110,7 +110,7 @@ function App() {
     useLogin.getState().clearNotifications();
   };
 
-  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded || !isClientsDownloaded;
+  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded || !isClientsDownloaded || !isOrdersDownloaded;
 
 /*   if (isCategoriesError) return <ErrorPage />;
   if (isProductsError) return <ErrorPage />;

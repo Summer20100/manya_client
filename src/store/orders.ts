@@ -17,14 +17,15 @@ type Actions = {
   getOrders: () => Promise<void>;
   clearNotifications: () => Promise<void>;
   getOrderById: (id: number) => Promise<void>;
-  addOrder: (category: IBaseOrder ) => Promise<void>;
-  updateOrder: (category: IOrder ) => Promise<void>;
+  addOrder: (orders: IBaseOrder[] | IBaseOrder) => Promise<void>;
+  updateOrder: (order: IOrder ) => Promise<void>;
   removeOrder: (id: number) => Promise<void>;
 }
 
 const { 
   //urlOnrenderOrders,
-  urlJWTOrders
+  urlJWTOrders,
+  urlLocalserverOrders
  } = URL;
 
 const fetchOrders = async (set: (state: Partial<State>) => void) => {
@@ -95,20 +96,21 @@ export const useOrders = create<State & Actions>((set)=> ({
     }
   },
 
-  addOrder: async (order: IBaseOrder) => {
+  addOrder: async (order: IBaseOrder[] | IBaseOrder) => {
     try {
       set({ isDownloaded: false, isError: false });
       const responseAdd = await api.post(
         //urlOnrenderOrders,
-        urlJWTOrders,
+        //urlJWTOrders,
+        urlLocalserverOrders,
         //"https://marusina-sweets.onrender.com/categories/",
         //"http://127.0.0.1:8000/categories/",
         order
       );
       if (responseAdd.status === 201) {
-        set({ message: responseAdd.data.message })
+        set({ message: responseAdd.data.message, isDownloaded: true })
       };
-      await fetchOrders(set);
+      //await fetchOrders(set);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 400) {

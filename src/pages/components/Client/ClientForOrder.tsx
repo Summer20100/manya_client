@@ -2,12 +2,12 @@ import { FC, useEffect, useState } from "react";
 import InputMask from "react-input-mask-next";
 import { IClientLocalStorage, IBaseClient } from "../../../models/IClient";
 import { useClients } from "../../../store/clients";
-import { useLocalStorageWatcher } from "../../../store/localStorage";
+import { useLocalStorageWatcher, removeOrdersFromLocalStorage } from "../../../store/localStorage";
 import { useOrders } from "../../../store/orders";
 
 export interface IOrderInfo {
     comments?: string | null;
-    date?: string | null;
+    date: string | null;
 }
 
 const ClientForOrder: FC = () => {
@@ -20,10 +20,13 @@ const ClientForOrder: FC = () => {
 
     const storageData  =  useLocalStorageWatcher();
     const { 
-        ordersFromBasket
+        ordersFromBasket,
     } = storageData;
 
-    const { addOrder } = useOrders();
+    const { 
+        addOrder,
+        message
+     } = useOrders();
 
     const [adres, setAdres] = useState<string | null>(null);
     const [ordersInfo, setOrdersInfo] = useState<IOrderInfo | null>(null);
@@ -34,12 +37,13 @@ const ClientForOrder: FC = () => {
     });
 
     useEffect(() => {
-        const info = JSON.parse(localStorage.getItem('ordersInfo') || "null")
+        const info = JSON.parse(sessionStorage.getItem('ordersInfo') || "null")
         if (info) {
             const { date } = info;
             const currentDate = new Date().toISOString().split("T")[0];
-            if ( date < currentDate ) {
+            if ( date < currentDate || !date) {
                 setOrdersInfo({ ...info, date: currentDate })
+                sessionStorage.setItem('ordersInfo', JSON.stringify({ ...info, date: currentDate }))
             } else {
                 setOrdersInfo(info)
             }
@@ -47,7 +51,7 @@ const ClientForOrder: FC = () => {
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('ordersInfo', JSON.stringify(ordersInfo))
+        sessionStorage.setItem('ordersInfo', JSON.stringify(ordersInfo))
     }, [ordersInfo])
 
     useEffect(() => {
@@ -55,8 +59,35 @@ const ClientForOrder: FC = () => {
         if (clientFromLocal) {
             setFormData(clientFromLocal);
             setAdres(clientFromLocal.adres);
+        };
+        const mewOrderInfo = JSON.parse(sessionStorage.getItem('ordersInfo') || 'null');
+        if ( mewOrderInfo === null) {
+            const mewOrderInfo = {
+                comments: '',
+                date: new Date().toISOString().split("T")[0]
+            };
+            sessionStorage.setItem('ordersInfo', JSON.stringify(mewOrderInfo))
         }
     }, []);
+
+    useEffect(() => {
+        console.log("message изменился:", message);
+    
+        if ( message.length !== 0 ) {
+            const mewOrderInfo = {
+                comments: '',
+                date: new Date().toISOString().split("T")[0]
+            };
+            console.log("Очистка данных, т.к. message содержит текст");
+            sessionStorage.setItem('ordersInfo', JSON.stringify(mewOrderInfo))
+            sessionStorage.removeItem('ordersInfo');
+            removeOrdersFromLocalStorage("order_");
+            setOrdersInfo(mewOrderInfo);
+            //window.location.reload();
+        }
+    }, [message]);
+    
+
 
     useEffect(() => {
         if (client) {
@@ -85,6 +116,9 @@ const ClientForOrder: FC = () => {
 
         setErrors(prevErrors => {
             const newErrors = { ...prevErrors };
+
+            const mewOrderInfo = JSON.parse(sessionStorage.getItem('ordersInfo') || 'null');
+
     
             if (name === "phone") {
                 if (value.replace(/\D/g, "").length < 11) {
@@ -112,7 +146,7 @@ const ClientForOrder: FC = () => {
                 }
             };
             if (name === "comments") {
-                setOrdersInfo(prev => ({ ...prev, comments: value }));
+                setOrdersInfo(prev => ({ ...prev, comments: value, date: mewOrderInfo.date}));
                 if (value.length > 99) {
                     newErrors[name] = { message: "Комментарии не более 100 символов" };
                 } else {
@@ -141,23 +175,15 @@ const ClientForOrder: FC = () => {
         e.preventDefault();
         if (Object.keys(errors).length === 0) {
             await addClient(formRegistration);
-            window.location.reload();
         }
     };
 
     const toCreateOrder = () => {
         const clientInfo = JSON.parse(localStorage.getItem('client') || "null");
     
-        const formatDate = (dateStr: string): string => {
-            const [year, month, day] = dateStr.split("-");
-            return `${day}.${month}.${year}`;
-        };
-    
         const { adres, name: client_name, phone: client_phone } = clientInfo;
         const { comments: comment, date } = ordersInfo || {};
-    
-        const formattedDate = date ? formatDate(date) : "";
-    
+
         const orders = ordersFromBasket.map(el => ({
             client_phone,
             client_name,
@@ -166,18 +192,15 @@ const ClientForOrder: FC = () => {
             total_price: el.total_price,
             total_weight: el.total_weight,
             adres,
-            comment,
+            comment: comment ?? null,
             is_active: false,
-            date: formattedDate
+            date: date
         }));
 
         addOrder(orders);
-        
-    
-        console.log(orders[0]);
-    }
-    
-    
+
+        //console.log(orders)
+    }   
 
     
     return (
@@ -235,14 +258,17 @@ const ClientForOrder: FC = () => {
                         </div>
                     </label>
 
-                    <button 
-                        className="button" 
-                        type="submit" 
-                        style={{ width: '100%', textTransform: 'uppercase', marginTop: '15px' }}
-                        onClick={toCreateOrder}
-                    >
-                        заказать
-                    </button>
+                    { ordersFromBasket.length > 0 &&
+                        <button 
+                            className="button" 
+                            type="submit" 
+                            style={{ width: '100%', textTransform: 'uppercase', marginTop: '15px' }}
+                            onClick={toCreateOrder}
+                        >
+                            заказать
+                        </button>
+                    }
+                    
                 </>
             ) : (
                 <>
