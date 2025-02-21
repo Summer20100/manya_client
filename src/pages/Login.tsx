@@ -1,38 +1,53 @@
 import { FC } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { IBaseLogin } from '../models/ILogin';
 import * as yup from 'yup';
+import { useLogin } from "../store/login";
 
-// Определение схемы Yup
 const schema = yup.object({
-  email: yup.string().email('Некорректный email').required('Email обязателен'),
-  password: yup.string().min(6, 'Минимум 6 символов').required('Пароль обязателен'),
+  name: yup
+    .string()
+    .min(3, 'Минимум 3 символа')
+    .max(16, 'Максимум 16 символов')
+    .required('Имя обязательно'),
+  password: yup.string().min(5, 'Минимум 5 символов').required('Пароль обязателен'),
 }).required();
 
-interface FormData {
-  email: string;
-  password: string;
-}
-
-const MyForm: FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+const Login: FC = () => {
+  const { login } = useLogin();
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors } 
+  } = useForm<IBaseLogin>({
+    mode: 'all',
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IBaseLogin> = (data) => {
+    login(data);
   };
 
   return (
-    <div className="form_login">
+    <div className="login">
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div style={{ position: "relative" }}>
-          <input className="input" {...register('email')} placeholder="Email" />
-          {errors.email && <p className="validation_error">{errors.email.message}</p>}  
+          <input 
+            className="input" 
+            {...register('name')} 
+            placeholder="Имя" 
+          />
+          {errors.name && <p className="validation_error">{errors.name.message}</p>}  
         </div>
 
         <div style={{ position: "relative" }}>
-          <input className="input" {...register('password')} type="password" placeholder="Пароль" />
+          <input 
+            className="input" 
+            {...register('password')} 
+            type="password" 
+            placeholder="Пароль" 
+          />
           {errors.password && <p className="validation_error">{errors.password.message}</p>}
         </div>
         
@@ -42,4 +57,4 @@ const MyForm: FC = () => {
   );
 };
 
-export default MyForm;
+export default Login;
