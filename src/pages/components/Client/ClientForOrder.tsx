@@ -70,15 +70,12 @@ const ClientForOrder: FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        console.log("message изменился:", message);
-    
+    useEffect(() => {   
         if ( message.length !== 0 ) {
             const mewOrderInfo = {
                 comments: '',
                 date: new Date().toISOString().split("T")[0]
             };
-            console.log("Очистка данных, т.к. message содержит текст");
             sessionStorage.setItem('ordersInfo', JSON.stringify(mewOrderInfo))
             sessionStorage.removeItem('ordersInfo');
             removeOrdersFromLocalStorage("order_");

@@ -7,6 +7,7 @@ import { IOrderForLocalstorage } from "../../../models/IOrder";
 const Product: FC<IProduct> = ({
     id,
     title,
+    is_active,
     description,
     img_URL,
     img_title,
@@ -54,41 +55,45 @@ const Product: FC<IProduct> = ({
     
 
     return (
-        <div className="product-card" key={id}>
-            <div className="img">
-                <img
-                    src={img_URL && img_URL.trim() ? img_URL : img_URL_no_photo}
-                    alt={img_title || "Изображение категории"}
-                    title={img_title || "Изображение категории"}
-                />
-            </div>
-            <div className="title">{title}</div>
-            <div className="description">{description}</div>
-
-            <div className="product-details">
-                <div className="product-info">
-                    <div className="price">{price_for_itm} ₽</div>
-                    <div className="weight">{weight_for_itm} г.</div>
-                </div>
-                <div className="btns-basket">
-                    <div className="btn-add">
-                        <div 
-                            className="btn-dec"
-                            onClick={decrement}
-                        > - </div>
-                        <div>{ count }</div>
-                        <div 
-                            className="btn-inc" 
-                            onClick={increment}
-                        > + </div>
+        <>
+            { is_active &&
+                    <div className="product-card" key={id}>
+                    <div className="img">
+                        <img
+                            src={img_URL && img_URL.trim() ? img_URL : img_URL_no_photo}
+                            alt={img_title || "Изображение категории"}
+                            title={img_title || "Изображение категории"}
+                        />
                     </div>
-
-                    <div className="btn-add-to-cart" onClick={toBasket}>
-                        <FaShoppingCart /> 
+                    <div className="title">{title}</div>
+                    <div className="description">{description}</div>
+        
+                    <div className="product-details">
+                        <div className="product-info">
+                            <div className="price">{price_for_itm} ₽</div>
+                            <div className="weight">{weight_for_itm} г.</div>
+                        </div>
+                        <div className="btns-basket">
+                            <div className="btn-add">
+                                <div 
+                                    className="btn-dec"
+                                    onClick={decrement}
+                                > - </div>
+                                <div>{ count }</div>
+                                <div 
+                                    className="btn-inc" 
+                                    onClick={increment}
+                                > + </div>
+                            </div>
+        
+                            <div className="btn-add-to-cart" onClick={toBasket}>
+                                <FaShoppingCart /> 
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>     
+                </div>    
+            }        
+        </>
     );
 }
 

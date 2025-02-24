@@ -1,10 +1,17 @@
 import { FC, useEffect } from "react";
 import { useCategories } from "../../../store/categories";
-import Category from "./Category";
+import { useProducts } from "../../../store/products";
 
+import Category from "./Category";
 
 const Categories: FC = () => {
     const { categories, getCategories } = useCategories();
+    const{ products } = useProducts();
+
+    const isCategoryEmpty = () => {
+        return products.some(prod =>  prod.is_active);
+    };
+
     
     useEffect(() => {
       getCategories()
@@ -12,7 +19,7 @@ const Categories: FC = () => {
   
     return (
         <>
-            { categories.length > 0
+            { categories.length > 0 && isCategoryEmpty()
                 ?
                 <div className="catgories">
                     {

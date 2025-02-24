@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useNavigate } from "react-router";
 import { ICategory } from "../../../models/ICategory";
 import { useCategories } from "../../../store/categories";
+import { useProducts } from "../../../store/products";
 import { usePopup } from "../../../store/popup";
 
 const Category: FC<ICategory> = (category) => {
@@ -16,51 +17,53 @@ const Category: FC<ICategory> = (category) => {
         navigate(`/products?categoryId=${id}`);
     };
 
+    const{ products } = useProducts();
+
+    const isCategoryEmpty = (id: number) => {
+        return products.some(prod => prod.category_id === id && prod.is_active);
+    };
 
     return (
-        <div className="category" onClick={handleClick}>
-            <div className="title">{title}</div>
-{/*             <button 
-                className="delete-button" 
-                onClick={() => {
-                    isOpenHandler(true);
-                    addNamePopup("RemoveCategory", "Удалить категорию");
-                    getCategoryById(id)
-                    }}>
-                ✕
-            </button> */}
-            { img_URL && img_URL.trim() ? (
-                <div 
-                    className="img" 
-                    onClick={() => {
-                        isOpenHandler(true);
-                        addNamePopup("UpdateCategory", "Обновить категорию");
-                        getCategoryById(id)
-                }}>
-                    <img 
-                        src={img_URL === '' ? img_URL_no_photo : img_URL} 
-                        alt={img_title || "Изображение категории"} 
-                        title={img_title || "Изображение категории"} 
-                    />
+        <>
+            { isCategoryEmpty(id) &&
+                <div className="category" onClick={handleClick}>
+                    <div className="title">{title}</div>
+        
+                    { img_URL && img_URL.trim() ? (
+                        <div 
+                            className="img" 
+                            onClick={() => {
+                                isOpenHandler(true);
+                                addNamePopup("UpdateCategory", "Обновить категорию");
+                                getCategoryById(id)
+                        }}>
+                            <img 
+                                src={img_URL === '' ? img_URL_no_photo : img_URL} 
+                                alt={img_title || "Изображение категории"} 
+                                title={img_title || "Изображение категории"} 
+                            />
+                        </div>
+                    ) : (
+                        <div 
+                            className="img" 
+                            onClick={() => {
+                                isOpenHandler(true);
+                                addNamePopup("UpdateCategory", "Обновить категорию");
+                                getCategoryById(id)
+                        }}>
+                            <img 
+                                src={img_URL_no_photo} 
+                                alt={img_title || "Изображение отсутствует"} 
+                                title={img_title || "Изображение отсутствует"} 
+                            />
+                        </div>
+                    )}
+        
+                    <div className="description">{description}</div>
                 </div>
-            ) : (
-                <div 
-                    className="img" 
-                    onClick={() => {
-                        isOpenHandler(true);
-                        addNamePopup("UpdateCategory", "Обновить категорию");
-                        getCategoryById(id)
-                }}>
-                    <img 
-                        src={img_URL_no_photo} 
-                        alt={img_title || "Изображение отсутствует"} 
-                        title={img_title || "Изображение отсутствует"} 
-                    />
-                </div>
-            )}
-
-            <div className="description">{description}</div>
-        </div>
+            }
+        </>
+        
     );
 }
 

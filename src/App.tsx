@@ -35,6 +35,7 @@ function App() {
     isDownloaded: isCategoriesDownloaded,
     message: messageCategories, 
     error: errorCategories,
+    categories,
     getCategories
   } = useCategories();
 
@@ -43,6 +44,7 @@ function App() {
     isDownloaded: isProductsDownloaded,
     message: messageProducts, 
     error: errorProducts,
+    products,
     getProducts
   } = useProducts();
 
@@ -75,7 +77,6 @@ function App() {
   const token = localStorage.getItem("access-token");
 
   useEffect(() => {
-
       /* if (namePage === "Categories") { */
         getCategories();
       /* } else if (namePage === "Products") { */
@@ -85,8 +86,7 @@ function App() {
       /* } else if (namePage === "Orders") { */
         getOrders();
       /* } */
-
-  }, [getCategories, getProducts, getClients, getOrders, token, namePage, namePopup]);
+  }, [ getCategories, getProducts, getClients, getOrders, token, namePage, namePopup]);
 
 /*   useEffect(() => {
     validation(token);
