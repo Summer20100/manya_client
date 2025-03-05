@@ -1,4 +1,4 @@
-import { FC } from "react";
+/* import { FC } from "react";
 import { IClient } from "../../../models/IClient";
 import { useClients } from "../../../store/clients";
 import { usePopup } from "../../../store/popup";
@@ -49,4 +49,4 @@ const Product: FC<ProductProps> = ({
     );
 }
 
-export default Product;
+export default Product; */

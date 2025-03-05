@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+/* import { FC, useEffect } from "react";
 import { useClients } from "../../../store/clients";
 import Client from "./Client";
 
@@ -39,3 +39,4 @@ const Clients: FC = () => {
 };
 
 export default Clients;
+ */
