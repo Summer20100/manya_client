@@ -15,9 +15,7 @@ type State = {
 }
 
 type Actions = {
-  getClients: () => Promise<void>;
   clearNotifications: () => Promise<void>;
-  getClientById: (id: number) => Promise<void>;
   addClient: (client: IBaseClient ) => Promise<void>;
   updateClient: (client: IClient ) => Promise<void>;
   removeClient: (id: number) => Promise<void>;
@@ -29,38 +27,6 @@ const {
   //urlLocalserverClients 
 } = URL;
 
-const fetchClients = async (set: (state: Partial<State>) => void) => {
-  try {
-    const response = await api.get(
-      //urlOnrenderClients
-      //"https://marusina-sweets.onrender.com/categories/"
-      //`http://127.0.0.1:8000/categories/`
-      urlJWTClients
-    );
-    if (response.status === 200) {
-      set({ clients: response.data, isDownloaded: true, isError: false });
-    } else {
-      set({ clients: [], isDownloaded: true, isError: true });
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.log(error.response?.data.detail || "Произошла непредвиденная ошибка");
-      set({
-        //error: error.response?.data.detail || "Произошла непредвиденная ошибка",
-        isDownloaded: true,
-        isError: false,
-      });
-    } else {
-      console.log( "Произошла непредвиденная ошибка");
-      set({
-        //error: "Произошла непредвиденная ошибка",
-        isDownloaded: true,
-        isError: true,
-      });
-    }
-  }
-};
-
 export const useClients = create<State & Actions>((set)=> ({
   clients: [],
   client: null,
@@ -69,36 +35,6 @@ export const useClients = create<State & Actions>((set)=> ({
   isDownloaded: false,
   isError: false,
   existingClient: null,
-
-  getClients: async () => {
-    set({ isDownloaded: false, isError: false });
-    await fetchClients(set);
-  },
-
-  getClientById: async (id: number) => {
-    try {
-      set({ isDownloaded: false, isError: false });
-      const response = await api.get(
-        //urlOnrenderClients + id,
-        urlJWTClients +id,
-        //`https://marusina-sweets.onrender.com/categories/${id}`,
-        //`http://127.0.0.1:8000/categories/${id}`,
-      );
-      if (response.status === 200) {
-        set({ client: response.data, isDownloaded: true });
-      } else {
-        set({ client: null });
-      }
-      //await fetchClients(set);
-    } catch (error) {
-      console.error(error);
-      set({
-        error: "Произошла непредвиденная ошибка",
-        isDownloaded: true,
-        isError: true,
-      });
-    }
-  },
 
   addClient: async (client: IBaseClient) => {
     try {
@@ -117,7 +53,6 @@ export const useClients = create<State & Actions>((set)=> ({
           client: responseAdd.data.client
         })
       };
-      await fetchClients(set);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 400) {
@@ -162,7 +97,6 @@ export const useClients = create<State & Actions>((set)=> ({
       if (responseUpdate.status === 200) {
         set({ message: responseUpdate.data.message })
       };
-      await fetchClients(set);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 400) {
@@ -205,7 +139,6 @@ export const useClients = create<State & Actions>((set)=> ({
       } else {
         set({ error: responseDel.data.message })
       };
-      await fetchClients(set);
     } catch (error) {
       console.error(error);
       set({

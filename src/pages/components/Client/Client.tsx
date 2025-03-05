@@ -8,7 +8,7 @@ const Client: FC = () => {
         addClient,
         client,
         existingClient,
-        removeClient,
+        //removeClient,
         updateClient,
     } = useClients();
 
@@ -72,7 +72,7 @@ const Client: FC = () => {
                 setFormDataUpdate(null);
                 setFormRegistration({ name: '', phone: '' });
                 setIsHidden(true);
-                await removeClient(clientFromLocal.id);
+                //await removeClient(clientFromLocal.id);
             } catch (e) {
                 console.error("Ошибка при удалении клиента:", e);
             }
