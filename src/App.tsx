@@ -52,7 +52,7 @@ function App() {
     //isError: isClientsError,
     //isDownloaded: isClientsDownloaded,
     message: messageClients,
-    error: errorClients,
+    //error: errorClients,
     //getClients
   } = useClients();
 
@@ -114,7 +114,7 @@ function App() {
   if (isOrdersError) return <ErrorPage />;
   if (isLoginError) return <ErrorPage />; */
 
-  const allErrors = [errorCategories, errorProducts, errorClients, errorOrders]
+  const allErrors = [errorCategories, errorProducts, errorOrders]
   .filter(Boolean)
   .map(error => (typeof error === 'string' ? { msg: error } : error));
 
