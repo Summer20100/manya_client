@@ -1,14 +1,14 @@
 import "./CSS/style.css";
 import { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router";
+import { Routes, Route } from "react-router";
 import { useCategories } from "./store/categories";
 import { useProducts } from "./store/products";
 import { useClients } from "./store/clients";
 import { useLogin } from "./store/login";
 import { usePopup } from "./store/popup";
 import { usePages } from "./store/pages";
-import Login from "./pages/Login";
-import MainPage from "./pages/MainPage";
+//import Login from "./pages/Login";
+//import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
 import Loader from "./pages/components/Loader/Loader";
 import { ErrorNotification, MessageNotification } from "./pages/components/Notification"
@@ -26,30 +26,30 @@ import { useOrders } from "./store/orders";
 
 
 function App() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { namePopup } = usePopup();
   const { namePage } = usePages();
 
   const { 
-    isError: isCategoriesError, 
+    //isError: isCategoriesError, 
     isDownloaded: isCategoriesDownloaded,
     message: messageCategories, 
     error: errorCategories,
-    categories,
+    //categories,
     getCategories
   } = useCategories();
 
   const { 
-    isError: isProductsError,
+    //isError: isProductsError,
     isDownloaded: isProductsDownloaded,
     message: messageProducts, 
     error: errorProducts,
-    products,
+    //products,
     getProducts
   } = useProducts();
 
   const { 
-    isError: isClientsError,
+    //isError: isClientsError,
     isDownloaded: isClientsDownloaded,
     message: messageClients,
     error: errorClients,
@@ -57,7 +57,7 @@ function App() {
   } = useClients();
 
   const { 
-    isError: isOrdersError,
+    //isError: isOrdersError,
     isDownloaded: isOrdersDownloaded,
     message: messageOrders,
     error: errorOrders,

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+/* import { FC, useState } from "react";
 import { useProducts } from "../../../../store/products";
 import { usePopup } from "../../../../store/popup";
 import { useOrders } from "../../../../store/orders";
@@ -14,6 +14,8 @@ const schema = yup.object({
         .required("Выберите клиента")
         .typeError("Выберите клиента")
         .positive("Некорректный client_id"),
+    client_phone: yup
+        .string
     product_id: yup
         .number()
         .required("Выберите продукт")
@@ -263,3 +265,4 @@ const PopupAddOrder: FC = () => {
 };
 
 export default PopupAddOrder;
+ */

@@ -23,6 +23,7 @@
     "react-input-mask": "^2.0.4",
     "react-input-mask-next": "^3.0.0-alpha.12",
     "react-router-dom": "^7.0.2",
+    "vercel": "^41.3.1",
     "vite-plugin-pwa": "^0.21.1",
     "yup": "^1.6.1",
     "zustand": "^5.0.2"
