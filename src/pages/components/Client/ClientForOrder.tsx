@@ -172,6 +172,7 @@ const ClientForOrder: FC = () => {
         e.preventDefault();
         if (Object.keys(errors).length === 0) {
             await addClient(formRegistration);
+            toCreateOrder();
         }
     };
 

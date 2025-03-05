@@ -19,7 +19,7 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) =
   }, [onClose]);
 
   const containerStyle: React.CSSProperties = {
-    position: 'absolute',
+    //position: 'absolute',
     height: 'auto',
     top: '4.5rem',
     right: '0',
