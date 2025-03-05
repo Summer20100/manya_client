@@ -39,8 +39,8 @@ const fetchCategories = async (set: (state: Partial<State>) => void) => {
     const response = await api.get(
       //urlOnrenderCategories
       //"https://marusina-sweets.onrender.com/categories/"
-      `http://127.0.0.1:8000/categories/`
-      //urlJWTCategories
+      //`http://127.0.0.1:8000/categories/`
+      urlJWTCategories
     );
     if (response.status === 200) {
       set({ categories: response.data, isDownloaded: true, isError: false });

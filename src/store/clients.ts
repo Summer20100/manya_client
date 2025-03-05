@@ -89,7 +89,7 @@ export const useClients = create<State & Actions>((set)=> ({
       } else {
         set({ client: null });
       }
-      await fetchClients(set);
+      //await fetchClients(set);
     } catch (error) {
       console.error(error);
       set({

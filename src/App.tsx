@@ -4,9 +4,9 @@ import { Routes, Route } from "react-router";
 import { useCategories } from "./store/categories";
 import { useProducts } from "./store/products";
 import { useClients } from "./store/clients";
-import { useLogin } from "./store/login";
-import { usePopup } from "./store/popup";
-import { usePages } from "./store/pages";
+//import { useLogin } from "./store/login";
+//import { usePopup } from "./store/popup";
+//import { usePages } from "./store/pages";
 //import Login from "./pages/Login";
 //import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
@@ -27,8 +27,8 @@ import { useOrders } from "./store/orders";
 
 function App() {
   //const navigate = useNavigate();
-  const { namePopup } = usePopup();
-  const { namePage } = usePages();
+  //const { namePopup } = usePopup();
+  //const { namePage } = usePages();
 
   const { 
     //isError: isCategoriesError, 
@@ -50,18 +50,17 @@ function App() {
 
   const { 
     //isError: isClientsError,
-    isDownloaded: isClientsDownloaded,
+    //isDownloaded: isClientsDownloaded,
     message: messageClients,
     error: errorClients,
-    getClients
+    //getClients
   } = useClients();
 
   const { 
     //isError: isOrdersError,
-    isDownloaded: isOrdersDownloaded,
+    //isDownloaded: isOrdersDownloaded,
     message: messageOrders,
     error: errorOrders,
-    getOrders
   } = useOrders();
 
 /*   const { 
@@ -74,7 +73,7 @@ function App() {
     isValid
   } = useLogin(); */
 
-  const token = localStorage.getItem("access-token");
+  //const token = localStorage.getItem("access-token");
 
   useEffect(() => {
       /* if (namePage === "Categories") { */
@@ -82,11 +81,9 @@ function App() {
       /* } else if (namePage === "Products") { */
         getProducts();
       /* } else if (namePage === "Clients") { */
-        getClients();
       /* } else if (namePage === "Orders") { */
-        getOrders();
       /* } */
-  }, [ getCategories, getProducts, getClients, getOrders, token, namePage, namePopup]);
+  }, [ getCategories, getProducts ]);
 
 /*   useEffect(() => {
     validation(token);
@@ -107,10 +104,9 @@ function App() {
     useProducts.getState().clearNotifications();
     useClients.getState().clearNotifications();
     useOrders.getState().clearNotifications();
-    useLogin.getState().clearNotifications();
   };
 
-  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded || !isClientsDownloaded || !isOrdersDownloaded;
+  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded;
 
 /*   if (isCategoriesError) return <ErrorPage />;
   if (isProductsError) return <ErrorPage />;
@@ -118,21 +114,33 @@ function App() {
   if (isOrdersError) return <ErrorPage />;
   if (isLoginError) return <ErrorPage />; */
 
+  const allErrors = [errorCategories, errorProducts, errorClients, errorOrders]
+  .filter(Boolean)
+  .map(error => (typeof error === 'string' ? { msg: error } : error));
+
+const allMessages = [messageCategories, messageProducts, messageClients, messageOrders]
+  .filter(Boolean)
+  .map(message => (typeof message === 'string' ? { msg: message } : message));
+
   return (
     <>
       { isDataLoading && <Loader /> }
 
-      {errorCategories && <ErrorNotification message={errorCategories} onClose={closeNotification} />}
+      { allErrors.length > 0 && <ErrorNotification message={allErrors} onClose={closeNotification} /> }
+      { allMessages.length > 0 && <MessageNotification message={allMessages} onClose={closeNotification} /> }
+
+
+      {/* {errorCategories && <ErrorNotification message={errorCategories} onClose={closeNotification} />}
       {errorProducts && <ErrorNotification message={errorProducts} onClose={closeNotification} />}
       {errorClients && <ErrorNotification message={errorClients} onClose={closeNotification} />}
       {errorOrders && <ErrorNotification message={errorOrders} onClose={closeNotification} />}
-      {/* {errorLogin && <ErrorNotification message={errorLogin} onClose={closeNotification} />} */}
+      {errorLogin && <ErrorNotification message={errorLogin} onClose={closeNotification} />} */}
       
-      {messageCategories && <MessageNotification message={messageCategories}  onClose={closeNotification}/>}
+      {/* {messageCategories && <MessageNotification message={messageCategories}  onClose={closeNotification}/>}
       {messageProducts && <MessageNotification message={messageProducts}  onClose={closeNotification}/>}
       {messageClients && <MessageNotification message={messageClients}  onClose={closeNotification}/>}
       {messageOrders && <MessageNotification message={messageOrders}  onClose={closeNotification}/>}
-      {/* {messageLogin && <MessageNotification message={messageLogin}  onClose={closeNotification}/>} */}
+      {messageLogin && <MessageNotification message={messageLogin}  onClose={closeNotification}/>} */}
 
       <Header />
       <Routes>
