@@ -12,9 +12,9 @@ import PopupAddClient from "./clients/PopupAddClient";
 import PopupDeleteClient from "./clients/PopupDeleteClient";
 import PopupUpdateClient from "./clients/PopupUpdateClient";
 
-import PopupAddOrder from "./orders/PopupAddOrder";
+/* import PopupAddOrder from "./orders/PopupAddOrder";
 import PopupDeleteOrder from "./orders/PopupDeleteOrder";
-import PopupUpdateOrder from "./orders/PopupUpdateOrder";
+import PopupUpdateOrder from "./orders/PopupUpdateOrder"; */
 
 
 
@@ -34,9 +34,9 @@ const Popup: FC = () => {
     const popupDeleteClient = isOpen && namePopup === "RemoveClient";
     const popupUpdateClient = isOpen && namePopup === "UpdateClient";
 
-    const popupAddOrder = isOpen && namePopup === "AddOrder";
+/*     const popupAddOrder = isOpen && namePopup === "AddOrder";
     const popupDeleteOrder = isOpen && namePopup === "RemoveOrder";
-    const popupUpdateOrder = isOpen && namePopup === "UpdateOrder";
+    const popupUpdateOrder = isOpen && namePopup === "UpdateOrder"; */
 
 
     useEffect(() => {
@@ -81,9 +81,9 @@ const Popup: FC = () => {
                         { popupDeleteClient && <PopupDeleteClient /> }
                         { popupUpdateClient && <PopupUpdateClient /> }
 
-                        { popupAddOrder && <PopupAddOrder /> }
+{/*                         { popupAddOrder && <PopupAddOrder /> }
                         { popupDeleteOrder && <PopupDeleteOrder /> }
-                        { popupUpdateOrder && <PopupUpdateOrder /> }
+                        { popupUpdateOrder && <PopupUpdateOrder /> } */}
                     </div>
                 </div>
             </div>
