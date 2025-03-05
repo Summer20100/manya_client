@@ -3,11 +3,9 @@ import { useNavigate } from "react-router";
 import { ICategory } from "../../../models/ICategory";
 import { useCategories } from "../../../store/categories";
 import { useProducts } from "../../../store/products";
-import { usePopup } from "../../../store/popup";
 
 const Category: FC<ICategory> = (category) => {
     const { id, title, description, img_URL, img_title } = category;
-    const { isOpenHandler, addNamePopup } = usePopup();
     const { getCategoryById } = useCategories();
     const img_URL_no_photo = "/img/no_photo.jpg";
 
@@ -33,8 +31,6 @@ const Category: FC<ICategory> = (category) => {
                         <div 
                             className="img" 
                             onClick={() => {
-                                isOpenHandler(true);
-                                addNamePopup("UpdateCategory", "Обновить категорию");
                                 getCategoryById(id)
                         }}>
                             <img 
@@ -47,8 +43,6 @@ const Category: FC<ICategory> = (category) => {
                         <div 
                             className="img" 
                             onClick={() => {
-                                isOpenHandler(true);
-                                addNamePopup("UpdateCategory", "Обновить категорию");
                                 getCategoryById(id)
                         }}>
                             <img 
