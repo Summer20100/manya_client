@@ -1,4 +1,4 @@
-import { FC } from "react";
+/* import { FC } from "react";
 import { usePopup } from "../../../../store/popup";
 import { useOrders } from "../../../../store/orders";
 
@@ -26,4 +26,4 @@ const PopupDeleteOrder: FC = () => {
     );
 };
 
-export default PopupDeleteOrder;
+export default PopupDeleteOrder; */
