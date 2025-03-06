@@ -2,8 +2,8 @@
   max-width: 1280px;
   margin: 0 auto;
   position: relative;
-  padding-bottom: 60px;
-  padding-top: 60px;
+  padding-bottom: 75px;
+  padding-top: 70px;
   background-color: #ffffff;
 }
 
@@ -15,7 +15,7 @@
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  height: 98vh;
+  height: 101vh;
   width: 100vw;
   margin: 0;
 }
