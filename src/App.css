@@ -16,7 +16,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   height: 101vh;
-  width: 100vw;
+  width: 99vw;
   margin: 0;
   padding: 0 5px;
 }
