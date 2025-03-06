@@ -50,7 +50,7 @@ function App() {
 
   const { 
     //isError: isClientsError,
-    //isDownloaded: isClientsDownloaded,
+    isDownloaded: isClientsDownloaded,
     message: messageClients,
     //error: errorClients,
     //getClients
@@ -106,7 +106,7 @@ function App() {
     useOrders.getState().clearNotifications();
   };
 
-  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded  || isOrdersDownloaded;
+  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded  || isOrdersDownloaded || isClientsDownloaded;
 
 /*   console.log("isOrdersDownloaded>>>", isOrdersDownloaded)
   console.log("isClientsDownloaded>>>>", isClientsDownloaded)

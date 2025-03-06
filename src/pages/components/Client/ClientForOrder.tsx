@@ -80,7 +80,6 @@ const ClientForOrder: FC = () => {
             sessionStorage.removeItem('ordersInfo');
             removeOrdersFromLocalStorage("order_");
             setOrdersInfo(mewOrderInfo);
-            //window.location.reload();
         }
     }, [message]);
     
@@ -100,12 +99,9 @@ const ClientForOrder: FC = () => {
                 id: existingClient.id
             });
         }
-    }, [client, existingClient, formRegistration, updateClient, adres]);
+    }, [client, existingClient, formRegistration, updateClient]);
 
     const [errors, setErrors] = useState<Record<string, { message: string }>>({});
-
-
-
 
     const handleChangeRegistration = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -179,6 +175,8 @@ const ClientForOrder: FC = () => {
         }
     };
 
+    console.log(adres)
+
     const toCreateOrder = async () => {
         const clientInfo = JSON.parse(localStorage.getItem('client') || "{}");
     
@@ -211,11 +209,9 @@ const ClientForOrder: FC = () => {
             localStorage.setItem('client', JSON.stringify(newClient));
         } catch (e) {
             console.log(e);
-        }
-    
+        };
+        window.location.reload();
     };
-      
-
     
     return (
         <div>

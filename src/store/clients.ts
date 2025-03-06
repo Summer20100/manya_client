@@ -38,7 +38,7 @@ export const useClients = create<State & Actions>((set)=> ({
 
   addClient: async (client: IBaseClient) => {
     try {
-      set({ isDownloaded: false, isError: false });
+      set({ isDownloaded: true, isError: false });
       const responseAdd = await api.post(
         //urlOnrenderClients,
         urlJWTClients,
@@ -49,8 +49,9 @@ export const useClients = create<State & Actions>((set)=> ({
       );
       if (responseAdd.status === 201) {
         set({ 
-          //message: responseAdd.data.message,
-          client: responseAdd.data.client
+          message: responseAdd.data.message,
+          client: responseAdd.data.client,
+          isDownloaded: false
         })
       };
     } catch (error) {
@@ -60,22 +61,22 @@ export const useClients = create<State & Actions>((set)=> ({
           set({
             error: error.response.data.detail.error,
             existingClient: error.response.data.detail.client,
-            isDownloaded: true,
+            isDownloaded: false,
             isError: false,
           });
         } else {
           console.error("Непредвиденная ошибка: ", error.response?.data);
           set({
             error: error.response?.data || "Непредвиденная ошибка",
-            isDownloaded: true,
-            isError: true,
+            isDownloaded: false,
+            isError: false,
           });
         }
       } else {
         console.error("Непредвиденная ошибка:", error);
         set({
           error: "Непредвиденная ошибка",
-          isDownloaded: true,
+          isDownloaded: false,
           isError: true,
         });
       }
@@ -84,7 +85,7 @@ export const useClients = create<State & Actions>((set)=> ({
 
   updateClient: async (client: IClient) => {
     try {
-      set({ isDownloaded: false, isError: false });
+      set({ isDownloaded: true, isError: false });
       const { id } = client;
       const responseUpdate = await api.put(
         //urlLocalserverClients +id,
@@ -95,7 +96,10 @@ export const useClients = create<State & Actions>((set)=> ({
         client
       );
       if (responseUpdate.status === 200) {
-        set({ message: responseUpdate.data.message })
+        set({ 
+          message: responseUpdate.data.message,
+          isDownloaded: false
+        })
       };
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -103,22 +107,22 @@ export const useClients = create<State & Actions>((set)=> ({
           console.error(error.response.data.detail);
           set({
             error: error.response.data.detail,
-            isDownloaded: true,
+            isDownloaded: false,
             isError: false,
           });
         } else {
           console.error("Непредвиденная ошибка: ", error.response?.data);
           set({
             error: error.response?.data || "Непредвиденная ошибка",
-            isDownloaded: true,
-            isError: true,
+            isDownloaded: false,
+            isError: false,
           });
         }
       } else {
         console.error("Непредвиденная ошибка:", error);
         set({
           error: "Непредвиденная ошибка",
-          isDownloaded: true,
+          isDownloaded: false,
           isError: true,
         });
       }
