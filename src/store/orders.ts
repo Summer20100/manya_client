@@ -35,7 +35,7 @@ export const useOrders = create<State & Actions>((set)=> ({
 
   addOrder: async (order: IBaseOrder[] | IBaseOrder) => {
     try {
-      set({ isDownloaded: false, isError: false });
+      set({ isDownloaded: true, isError: false });
       const responseAdd = await api.post(
         //urlOnrenderOrders,
         urlJWTOrders,
@@ -44,8 +44,10 @@ export const useOrders = create<State & Actions>((set)=> ({
         //"http://127.0.0.1:8000/categories/",
         order
       );
+
+      console.log(order)
       if (responseAdd.status === 201) {
-        set({ message: responseAdd.data.message, isDownloaded: true })
+        set({ message: responseAdd.data.message, isDownloaded: false })
       };
       //await fetchOrders(set);
     } catch (error) {
@@ -54,14 +56,14 @@ export const useOrders = create<State & Actions>((set)=> ({
           console.error(error.response.data.detail);
           set({
             error: error.response.data.detail,
-            isDownloaded: true,
+            isDownloaded: false,
             isError: false,
           });
         } else {
           console.error("Непредвиденная ошибка: ", error.response?.data);
           set({
             error: error.response?.data.detail || "Непредвиденная ошибка",
-            isDownloaded: true,
+            isDownloaded: false,
             isError: false,
           });
         }
@@ -69,7 +71,7 @@ export const useOrders = create<State & Actions>((set)=> ({
         console.error("Непредвиденная ошибка:", error);
         set({
           error: "Непредвиденная ошибка",
-          isDownloaded: true,
+          isDownloaded: false,
           isError: true,
         });
       }

@@ -12,7 +12,7 @@ const Client: FC = () => {
         updateClient,
     } = useClients();
 
-    const [adres, setAdres] = useState<string | null>(null);
+    const [adres, setAdres] = useState<string | null>("");
     const [formData, setFormData] = useState<IClientLocalStorage | null>(null);
     const [formDataUpdate, setFormDataUpdate] = useState<IClientForUpdate | null>(null);
     const [formRegistration, setFormRegistration] = useState<IBaseClient>({
@@ -28,8 +28,13 @@ const Client: FC = () => {
             setFormDataUpdate(clientFromLocal);
             setAdres(clientFromLocal.adres);
         }
+
+        console.log(clientFromLocal)
+
     }, []);
 
+
+    
     useEffect(() => {
         if (client) {
             const clientToLocalStorage = { ...client, adres: adres };
@@ -45,6 +50,10 @@ const Client: FC = () => {
                 ...formRegistration,
                 id: existingClient.id
             });
+        } else {
+            const clientFromLocalStorage = JSON.parse(localStorage.getItem('client') || "null");
+            setFormData(clientFromLocalStorage);
+            setFormDataUpdate(clientFromLocalStorage);
         }
     }, [client, existingClient, formRegistration, updateClient]);
 
@@ -110,6 +119,7 @@ const Client: FC = () => {
                 }
             };
             if (name === "adres") {
+                console.log(value)
                 if (value.length > 99) {
                     newErrors[name] = { message: "Адрес не более 100 символов" };
                 } else {

@@ -58,7 +58,7 @@ function App() {
 
   const { 
     //isError: isOrdersError,
-    //isDownloaded: isOrdersDownloaded,
+    isDownloaded: isOrdersDownloaded,
     message: messageOrders,
     error: errorOrders,
   } = useOrders();
@@ -106,7 +106,15 @@ function App() {
     useOrders.getState().clearNotifications();
   };
 
-  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded;
+  const isDataLoading = !isCategoriesDownloaded || !isProductsDownloaded  || isOrdersDownloaded;
+
+/*   console.log("isOrdersDownloaded>>>", isOrdersDownloaded)
+  console.log("isClientsDownloaded>>>>", isClientsDownloaded)
+
+  console.log(isDataLoading) */
+
+
+  
 
 /*   if (isCategoriesError) return <ErrorPage />;
   if (isProductsError) return <ErrorPage />;
@@ -129,23 +137,8 @@ const allMessages = [messageCategories, messageProducts, messageClients, message
       { allErrors.length > 0 && <ErrorNotification message={allErrors} onClose={closeNotification} /> }
       { allMessages.length > 0 && <MessageNotification message={allMessages} onClose={closeNotification} /> }
 
-
-      {/* {errorCategories && <ErrorNotification message={errorCategories} onClose={closeNotification} />}
-      {errorProducts && <ErrorNotification message={errorProducts} onClose={closeNotification} />}
-      {errorClients && <ErrorNotification message={errorClients} onClose={closeNotification} />}
-      {errorOrders && <ErrorNotification message={errorOrders} onClose={closeNotification} />}
-      {errorLogin && <ErrorNotification message={errorLogin} onClose={closeNotification} />} */}
-      
-      {/* {messageCategories && <MessageNotification message={messageCategories}  onClose={closeNotification}/>}
-      {messageProducts && <MessageNotification message={messageProducts}  onClose={closeNotification}/>}
-      {messageClients && <MessageNotification message={messageClients}  onClose={closeNotification}/>}
-      {messageOrders && <MessageNotification message={messageOrders}  onClose={closeNotification}/>}
-      {messageLogin && <MessageNotification message={messageLogin}  onClose={closeNotification}/>} */}
-
       <Header />
       <Routes>
-{/*         { !isValid && <Route path="/login" element={<Login />} /> } */}
-{/*         { isValid && <Route path="/" element={<MainPage />} /> } */}
         <Route path="*" element={<ErrorPage />} />
         <Route path="/" element={<Categories />} />
         <Route path="/products" element={<Products />} />

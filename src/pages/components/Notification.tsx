@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface NotificationProps {
   message: string | { msg: string }[] | { detail: string };
@@ -8,6 +8,7 @@ interface NotificationProps {
 
 const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const notificationRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,8 +19,19 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) =
     return () => clearTimeout(timer);
   }, [onClose]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setIsVisible(false);
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
   const containerStyle: React.CSSProperties = {
-    //position: 'absolute',
     height: 'auto',
     top: '4.5rem',
     right: '0',
@@ -30,7 +42,7 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) =
     borderRadius: '4px',
     fontSize: '12px',
     fontWeight: 'bold',
-    display: 'flex',
+    display: isVisible ? 'flex' : 'none',
     flexDirection: 'column',
     maxWidth: '1000px',
     backgroundColor: type === 'error' ? '#f8d7da' : '#d1ecf1',
@@ -38,6 +50,7 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) =
     border: type === 'error' ? '1px solid #fc031d' : '1px solid #00ff00',
     opacity: isVisible ? 0.9 : 0,
     transition: 'opacity 1s ease-out',
+    cursor: 'pointer'
   };
 
   const itemStyle: React.CSSProperties = {
@@ -57,7 +70,6 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) =
     wordWrap: 'break-word',
   };
 
-  // Ensure message is properly formatted before rendering
   let formattedMessage: string | { msg: string }[];
 
   if (typeof message === 'string') {
@@ -65,13 +77,13 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) =
   } else if (Array.isArray(message)) {
     formattedMessage = message;
   } else if (message && typeof message === 'object' && 'detail' in message) {
-    formattedMessage = message.detail; // Extract the detail field
+    formattedMessage = message.detail;
   } else {
-    formattedMessage = 'Unknown error occurred'; // Fallback message
+    formattedMessage = 'Unknown error occurred';
   }
 
   return (
-    <div style={containerStyle} onClick={onClose}>
+    <div ref={notificationRef} style={containerStyle} onClick={onClose}>
       {Array.isArray(formattedMessage) ? (
         formattedMessage.map((el, index) => (
           <div key={index} style={itemStyle}>

@@ -104,13 +104,16 @@ const ClientForOrder: FC = () => {
 
     const [errors, setErrors] = useState<Record<string, { message: string }>>({});
 
+
+
+
     const handleChangeRegistration = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
 
-        if ( name === 'adres' ) {
-            setAdres(value)
-        };
-
+        if (name === 'adres') {
+            setAdres(value);
+        }
+          
         setErrors(prevErrors => {
             const newErrors = { ...prevErrors };
 
@@ -176,10 +179,10 @@ const ClientForOrder: FC = () => {
         }
     };
 
-    const toCreateOrder = () => {
-        const clientInfo = JSON.parse(localStorage.getItem('client') || "null");
+    const toCreateOrder = async () => {
+        const clientInfo = JSON.parse(localStorage.getItem('client') || "{}");
     
-        const { adres, name: client_name, phone: client_phone } = clientInfo;
+        const { adres: adresForOrder, name: client_name, phone: client_phone, id } = clientInfo;
         const { comments: comment, date } = ordersInfo || {};
     
         const currentDate = new Date().toISOString().split("T")[0];
@@ -191,15 +194,27 @@ const ClientForOrder: FC = () => {
             quantity: el.quantity,
             total_price: el.total_price,
             total_weight: el.total_weight,
-            adres,
+            adres: (adres && adres.length > 0) ? adres : adresForOrder,
             comment: comment ?? null,
             is_active: false,
             date: date ?? currentDate,
         }));
+
+        try {
+            await addOrder(orders);
+            const newClient = {
+                id,
+                name: client_name, 
+                phone: client_phone,
+                adres: (adres && adres.length > 0) ? adres : adresForOrder,
+            };
+            localStorage.setItem('client', JSON.stringify(newClient));
+        } catch (e) {
+            console.log(e);
+        }
     
-        addOrder(orders);
     };
-    
+      
 
     
     return (
@@ -354,9 +369,11 @@ const ClientForOrder: FC = () => {
                             </div>
                         </label>
 
-                        <button className="button" type="submit" style={{ width: '100%', textTransform: 'uppercase', marginTop: '15px' }}>
-                            заказать
-                        </button>
+                        { ordersFromBasket.length > 0 &&
+                            <button className="button" type="submit" style={{ width: '100%', textTransform: 'uppercase', marginTop: '15px' }}>
+                                заказать
+                            </button>
+                        }
                     </form>
                 </>
             )}
