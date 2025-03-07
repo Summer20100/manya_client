@@ -9,7 +9,7 @@ const Orders: FC = () => {
 
     return (
         <>
-            <div className="orders">
+            <div className="orders" style={{position: "relative"}}>
                 { ordersFromBasket.length > 0
                     ?
                     <>

@@ -17,7 +17,7 @@ const Products: FC = () => {
     const productsFilteredByCategory = products.filter(product => product.category_id === categoryId);
 
     return (
-        <div className="categories">
+        <div className="categories" style={{zIndex: "2"}}>
             { products.length > 0
                 ?
                 productsFilteredByCategory.map((product) => (

@@ -28,12 +28,7 @@ const Client: FC = () => {
             setFormDataUpdate(clientFromLocal);
             setAdres(clientFromLocal.adres);
         }
-
-        console.log(clientFromLocal)
-
     }, []);
-
-
     
     useEffect(() => {
         if (client) {
@@ -41,6 +36,7 @@ const Client: FC = () => {
             localStorage.setItem('client', JSON.stringify(clientToLocalStorage));
             setFormData(clientToLocalStorage);
             setFormDataUpdate(clientToLocalStorage);
+            window.location.reload();
         } else if (existingClient) {
             const clientToLocalStorage = { ...formRegistration, id: existingClient.id, adres: adres };
             localStorage.setItem('client', JSON.stringify(clientToLocalStorage));
@@ -54,6 +50,7 @@ const Client: FC = () => {
             const clientFromLocalStorage = JSON.parse(localStorage.getItem('client') || "null");
             setFormData(clientFromLocalStorage);
             setFormDataUpdate(clientFromLocalStorage);
+            //window.location.reload();
         }
     }, [client, existingClient, formRegistration, updateClient]);
 
@@ -68,7 +65,7 @@ const Client: FC = () => {
     const onRegistration = async (e: React.FormEvent) => {
         e.preventDefault();
         await addClient(formRegistration);
-        window.location.reload();
+        //window.location.reload();
     };
 
     const deleteClient = async () => {
@@ -96,7 +93,11 @@ const Client: FC = () => {
         if ( name === "adres" ) {
             setAdres(value)
         }
-    
+
+        if ( name === "name" ) {
+            console.log(value)
+        }
+
         setErrors(prevErrors => {
             const newErrors = { ...prevErrors };
     
@@ -159,6 +160,8 @@ const Client: FC = () => {
         }
     };
 
+    console.log(errors.name)
+
     return (
         <div>
             {formData ? (
@@ -172,7 +175,12 @@ const Client: FC = () => {
 
                         <div
                             onClick={() => setIsHidden(prev => !prev) }
-                            style={{ textAlign: 'center', fontWeight: "bolder", cursor: 'pointer' }}>
+                            style={{ 
+                                textAlign: 'center', 
+                                fontWeight: "bolder", 
+                                cursor: 'pointer',
+                                position: 'relative'
+                            }}>
                             Нажмите для обновления
                         </div>
 
@@ -217,12 +225,12 @@ const Client: FC = () => {
                             </label>
 
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px', gap: "10px", textTransform: 'uppercase' }}>
-                                <button className="button" type="submit" style={{ flex: 1, textTransform: 'uppercase' }}>
+                                <button className="button" type="submit" style={{ position: 'relative', flex: 1, textTransform: 'uppercase' }}>
                                     Обновить данные
                                 </button>
                                 <div 
                                     className="delete-button" onClick={deleteClient}
-                                    style={{ flex: 1, textTransform: 'uppercase', cursor: 'pointer' }}
+                                    style={{ flex: 1, textTransform: 'uppercase', cursor: 'pointer', position: 'relative' }}
                                 >
                                     Удалить все данные
                                 </div>
@@ -235,13 +243,20 @@ const Client: FC = () => {
                     <div style={{ textAlign: 'center', fontWeight: "bolder", marginBottom: '50px' }}>
                         Заполните свой профиль для простоты заказа
                     </div>
-                    <form onSubmit={onRegistration}>
+                    <form onSubmit={onRegistration} style={{position: "relative"}}>
                         <label>
-                            <div style={{ fontWeight: "bolder", marginTop: '15px' }}>Имя: </div>
-                            <input 
-                                id="name" className="input" type="text" name="name" 
-                                value={formRegistration.name} onChange={handleChangeRegistration} required
-                            />
+                            <div style={{ fontWeight: "bolder", marginTop: '15px' }}>
+                                Имя: 
+                            </div>
+                            <div style={{ position: 'relative', display: 'flex' }}>
+                                <input 
+                                    id="name" className="input" type="text" name="name" 
+                                    value={formRegistration.name} 
+                                    onChange={(e) =>{handleChangeRegistration(e); handleChange(e)}} 
+                                    required
+                                />
+                                {errors.name && <div className="errors">{errors.name.message}</div>}
+                            </div>
                         </label>
                         <label>
                             <div style={{ fontWeight: "bolder", marginTop: '15px' }}>Номер телефона:</div>
@@ -266,7 +281,16 @@ const Client: FC = () => {
                                 {errors.adres && <div className="errors">{errors.adres.message}</div>}   
                             </div>
                         </label>
-                        <button className="button" type="submit" style={{ width: '100%', textTransform: 'uppercase', marginTop: '15px' }}>
+                        <button 
+                            className="button" 
+                            type="submit" 
+                            style={{ 
+                                width: '100%', 
+                                textTransform: 'uppercase', 
+                                marginTop: '15px',
+                                position: 'relative'
+                            }}
+                        >
                             Сохранить данные
                         </button>
                     </form>

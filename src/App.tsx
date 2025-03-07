@@ -150,6 +150,7 @@ function App() {
           backgroundRepeat: "repeat",
           backgroundSize: "50%",
           opacity: "0.08",
+          zIndex: "0"
         }}
       />
 

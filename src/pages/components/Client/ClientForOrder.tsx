@@ -214,7 +214,7 @@ const ClientForOrder: FC = () => {
     };
     
     return (
-        <div>
+        <div style={{position: "relative"}}>
             {formData ? (
                 <>
                     <div><span style={{ fontWeight: "bolder" }}>Имя: </span>{formData.name}</div>

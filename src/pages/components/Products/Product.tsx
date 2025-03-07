@@ -57,7 +57,7 @@ const Product: FC<IProduct> = ({
     return (
         <>
             { is_active &&
-                    <div className="product-card" key={id}>
+                <div className="product-card" key={id} style={{position: "relative", backgroundColor: "white"}}>
                     <div className="img">
                         <img
                             src={img_URL && img_URL.trim() ? img_URL : img_URL_no_photo}
