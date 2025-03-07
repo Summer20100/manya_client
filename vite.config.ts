@@ -25,26 +25,26 @@ export default defineConfig({
         orientation: "portrait",
         icons: [
           {
-            src: "pwa/manifest-icon-154.png",
-            sizes: "154x154",
+            src: "pwa/manifest-icon-175.png",
+            sizes: "175x175",
             type: "image/png",
             purpose: "any"
           },
           {
-            src: "pwa/manifest-icon-154.maskable.png",
-            sizes: "154x154",
+            src: "pwa/manifest-icon-175.maskable.png",
+            sizes: "175x175",
             type: "image/png",
             purpose: "maskable"
           },
           {
-            src: "pwa/manifest-icon-395.png",
-            sizes: "395x395",
+            src: "pwa/manifest-icon-495.png",
+            sizes: "495x495",
             type: "image/png",
             purpose: "any"
           },
           {
-            src: "pwa/manifest-icon-395.maskable.png",
-            sizes: "395x395",
+            src: "pwa/manifest-icon-495.maskable.png",
+            sizes: "495x495",
             type: "image/png",
             purpose: "maskable"
           }
