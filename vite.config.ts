@@ -6,51 +6,70 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate', // Автоматическая регистрация и обновление
+      registerType: 'autoUpdate',
       devOptions: {
-        enabled: true, // Включает поддержку PWA в режиме разработки
+        enabled: true,
+        navigateFallback: 'index.html',
       },
       manifest: {
-        name: 'МарусиныСладости',
-        short_name: 'МарусиныСладости',
-        description: 'МарусиныСладости with Service Worker',
-        theme_color: '#ffffff',
-        background_color: "#ffffff",
-        display: "standalone",
+        name: "Марусины Сладости",
+        short_name: "M & S",
         start_url: "/",
+        display: "standalone",
+        description: "Самые лучшие сладости, мороженое, торты и прочие вкусняхи в Нововоронеже",
+        lang: "ru",
+        dir: "ltr",
         scope: "/",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        orientation: "portrait",
         icons: [
           {
-            src: "android/android-launchericon-48-48.png",
-            sizes: "48x48",
-            type: "image/png"
+            src: "pwa/manifest-icon-154.png",
+            sizes: "154x154",
+            type: "image/png",
+            purpose: "any"
           },
           {
-            src: "android/android-launchericon-72-72.png",
-            sizes: "72x72",
-            type: "image/png"
+            src: "pwa/manifest-icon-154.maskable.png",
+            sizes: "154x154",
+            type: "image/png",
+            purpose: "maskable"
           },
           {
-            src: "android/android-launchericon-96-96.png",
-            sizes: "96x96",
-            type: "image/png"
+            src: "pwa/manifest-icon-395.png",
+            sizes: "395x395",
+            type: "image/png",
+            purpose: "any"
           },
           {
-            src: "android/android-launchericon-144-144.png",
-            sizes: "144x144",
-            type: "image/png"
-          },
-          {
-            src: "android/android-launchericon-192-192.png",
-            sizes: "192x192",
-            type: "image/png"
-          },
-          {
-            src: "android/android-launchericon-512-512.png",
-            sizes: "512x512",
-            type: "image/png"
-          },
+            src: "pwa/manifest-icon-395.maskable.png",
+            sizes: "395x395",
+            type: "image/png",
+            purpose: "maskable"
+          }
         ],
+        screenshots: [
+          {
+            src: "pwa/home_page.jpg",
+            sizes: "358x797",
+            type: "image/png",
+            label: "Скриншот главной страницы"
+          },
+          {
+            src: "pwa/shopping_cart_page.jpg",
+            sizes: "357x798",
+            type: "image/png",
+            label: "Скриншот страницы корзины"
+          },
+          {
+            src: "pwa/client_page.jpg",
+            sizes: "361x798",
+            type: "image/png",
+            label: "Скриншот страницы клиента"
+          }
+        ],
+        prefer_related_applications: false
       },
     }),
   ],

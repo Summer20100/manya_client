@@ -10,14 +10,14 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose, type }) =
   const [isVisible, setIsVisible] = useState(true);
   const notificationRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+/*   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
       onClose();
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, [onClose]); */
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

@@ -126,9 +126,11 @@ function App() {
   .filter(Boolean)
   .map(error => (typeof error === 'string' ? { msg: error } : error));
 
-const allMessages = [messageCategories, messageProducts, messageClients, messageOrders]
+  const allMessages = [messageCategories, messageProducts, messageClients, messageOrders]
   .filter(Boolean)
   .map(message => (typeof message === 'string' ? { msg: message } : message));
+
+  const img_background = "/icon.jpg";
 
   return (
     <>
@@ -136,6 +138,21 @@ const allMessages = [messageCategories, messageProducts, messageClients, message
 
       { allErrors.length > 0 && <ErrorNotification message={allErrors} onClose={closeNotification} /> }
       { allMessages.length > 0 && <MessageNotification message={allMessages} onClose={closeNotification} /> }
+
+      <div
+        style={{
+          position: "fixed",
+          top: "0",
+          left: "0",
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: `url(${img_background})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "50%",
+          opacity: "0.08",
+        }}
+      />
+
 
       <Header />
       <Routes>
