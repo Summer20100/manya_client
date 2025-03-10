@@ -36,7 +36,7 @@ const Client: FC = () => {
             localStorage.setItem('client', JSON.stringify(clientToLocalStorage));
             setFormData(clientToLocalStorage);
             setFormDataUpdate(clientToLocalStorage);
-            window.location.reload();
+            //window.location.reload();
         } else if (existingClient) {
             const clientToLocalStorage = { ...formRegistration, id: existingClient.id, adres: adres };
             localStorage.setItem('client', JSON.stringify(clientToLocalStorage));
@@ -65,7 +65,7 @@ const Client: FC = () => {
     const onRegistration = async (e: React.FormEvent) => {
         e.preventDefault();
         await addClient(formRegistration);
-        //window.location.reload();
+        window.location.reload();
     };
 
     const deleteClient = async () => {

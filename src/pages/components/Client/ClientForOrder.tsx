@@ -172,6 +172,7 @@ const ClientForOrder: FC = () => {
         if (Object.keys(errors).length === 0) {
             await addClient(formRegistration);
             toCreateOrder();
+            window.location.reload();
         }
     };
 
@@ -210,7 +211,7 @@ const ClientForOrder: FC = () => {
         } catch (e) {
             console.log(e);
         };
-        window.location.reload();
+        //window.location.reload();
     };
     
     return (
